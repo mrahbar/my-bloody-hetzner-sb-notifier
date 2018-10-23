@@ -6,6 +6,7 @@ import (
 	"github.com/mrahbar/my-bloody-hetzner-sb-notifier/client"
 	c "github.com/mrahbar/my-bloody-hetzner-sb-notifier/crawler"
 	"github.com/mrahbar/my-bloody-hetzner-sb-notifier/hetzner"
+	n "github.com/mrahbar/my-bloody-hetzner-sb-notifier/notifier"
 )
 
 var (
@@ -64,6 +65,24 @@ var (
 		"set max benchmark",
 	)
 
+	notifierSender = flag.String(
+		"notifier-sender",
+		"",
+		"set notifier sender",
+	)
+
+	notifierPassword = flag.String(
+		"notifier-password",
+		"",
+		"set notifier password",
+	)
+
+	notifierRecipient = flag.String(
+		"notifier-recipient",
+		"",
+		"set notifier recipient",
+	)
+
 	alertOnScore = flag.Int(
 		"alert-on-score",
 		0,
@@ -86,6 +105,9 @@ func main() {
 
 		fmt.Printf("Got %d offers. Filtered offers: %d\n", len(offers.Server), len(servers))
 		crawler.Print(servers)
+
+		notifier := n.NewNotifier(*notifierRecipient, *notifierSender, *notifierPassword)
+		notifier.Act(servers)
 	} else {
 		fmt.Println("Got no offers.")
 	}
