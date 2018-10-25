@@ -64,24 +64,6 @@ var (
 		"set max benchmark",
 	)
 
-	notifierSender = flag.String(
-		"notifier-sender",
-		"",
-		"set notifier sender",
-	)
-
-	notifierPassword = flag.String(
-		"notifier-password",
-		"",
-		"set notifier password",
-	)
-
-	notifierRecipient = flag.String(
-		"notifier-recipient",
-		"",
-		"set notifier recipient",
-	)
-
 	alertOnScore = flag.Int(
 		"alert-on-score",
 		0,
