@@ -6,7 +6,6 @@ import (
 	"github.com/mrahbar/my-bloody-hetzner-sb-notifier/client"
 	c "github.com/mrahbar/my-bloody-hetzner-sb-notifier/crawler"
 	"github.com/mrahbar/my-bloody-hetzner-sb-notifier/hetzner"
-	n "github.com/mrahbar/my-bloody-hetzner-sb-notifier/notifier"
 )
 
 var (
@@ -106,8 +105,7 @@ func main() {
 		fmt.Printf("Got %d offers. Filtered offers: %d\n", len(offers.Server), len(servers))
 		crawler.Print(servers)
 
-		notifier := n.NewNotifier(*notifierRecipient, *notifierSender, *notifierPassword)
-		notifier.Act(servers)
+		//notifier := n.NewInstrumenter(*notifierRecipient, *notifierSender, *notifierPassword)
 	} else {
 		fmt.Println("Got no offers.")
 	}
