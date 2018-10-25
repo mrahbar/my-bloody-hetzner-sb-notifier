@@ -67,16 +67,15 @@ func (c *Crawler) Print(servers []hetzner.Server) {
 	c.tabWriter.Flush()
 }
 
-
 func (c *Crawler) isFiltered(server hetzner.Server) bool {
 	filtered := true
 
 	priceParsed := server.ParsePrice()
-	if server.Cpu_benchmark >= c.minBenchmark && server.Cpu_benchmark <= c.maxBenchmark &&
+	if server.CpuBenchmark >= c.minBenchmark && server.CpuBenchmark <= c.maxBenchmark &&
 		priceParsed >= c.minPrice && priceParsed <= c.maxPrice &&
 		server.Ram >= c.minRam && server.Ram <= c.maxRam &&
 		server.TotalHdd() >= c.minHddSize && server.TotalHdd() <= c.maxHddSize &&
-		server.Hdd_count >= c.minHddCount && server.Hdd_count <= c.maxHddCount {
+		server.HddCount >= c.minHddCount && server.HddCount <= c.maxHddCount {
 		filtered = false
 	}
 

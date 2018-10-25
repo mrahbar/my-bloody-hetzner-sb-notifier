@@ -1,11 +1,11 @@
 package instrumentation
 
-type Instrumenter struct{
-	projectId string
+type Instrumenter struct {
+	projectID string
 }
 
-func NewInstrumenter(projectId string) *Instrumenter {
+func NewInstrumenter(projectID string) *Instrumenter {
 	return &Instrumenter{
-		projectId: projectId,
+		projectID: projectID,
 	}
 }

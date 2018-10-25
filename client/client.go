@@ -12,7 +12,7 @@ type Client struct {
 
 func NewClient() *Client {
 	crawler := &Client{
-		&http.Client{Timeout: 10 * time.Second}	,
+		&http.Client{Timeout: 10 * time.Second},
 	}
 
 	return crawler

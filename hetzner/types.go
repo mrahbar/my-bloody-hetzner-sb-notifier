@@ -19,45 +19,45 @@ type Server struct {
 	Datacenter  []string `json:"datacenter"`
 	Specials    []string `json:"specials"`
 	Traffic     string   `json:"traffic"`
-	Bandwith    int      `json:"bandwith"`
+	Bandwidth   int      `json:"bandwith"`
 
-	Price       string `json:"price"`
-	Price_v     string `json:"price_v"`
-	Setup_price string `json:"setup_price"`
+	Price      string `json:"price"`
+	PriceV     string `json:"price_v"`
+	SetupPrice string `json:"setup_price"`
 
-	Cpu           string `json:"cpu"`
-	Cpu_benchmark int    `json:"cpu_benchmark"`
-	Cpu_count     int    `json:"cpu_count"`
-	Ram           int    `json:"ram"`
-	Ram_hr        string `json:"ram_hr"`
-	Hdd_size      int    `json:"hdd_size"`
-	Hdd_hr        string `json:"hdd_hr"`
-	Hdd_count     int    `json:"hdd_count"`
-	SpecialHdd    string `json:"specialHdd"`
+	Cpu          string `json:"cpu"`
+	CpuBenchmark int    `json:"cpu_benchmark"`
+	CpuCount     int    `json:"cpu_count"`
+	Ram          int    `json:"ram"`
+	RamHr        string `json:"ram_hr"`
+	HddSize      int    `json:"hdd_size"`
+	HddHr        string `json:"hdd_hr"`
+	HddCount     int    `json:"hdd_count"`
+	SpecialHdd   string `json:"specialHdd"`
 
-	Next_reduce    int    `json:"next_reduce"`
-	Next_reduce_hr string `json:"next_reduce_hr"`
+	NextReduce   int    `json:"next_reduce"`
+	NextReduceHr string `json:"next_reduce_hr"`
 
-	Fixed_price bool `json:"fixed_price"`
-	Is_highio   bool `json:"is_highio"`
-	Is_ecc      bool `json:"is_ecc"`
+	FixedPrice bool `json:"fixed_price"`
+	IsHighio   bool `json:"is_highio"`
+	IsEcc      bool `json:"is_ecc"`
 }
 
 func (s *Server) TotalHdd() int {
-	return s.Hdd_count*s.Hdd_size
+	return s.HddCount * s.HddSize
 }
 
 func (s *Server) Score() float64 {
-	return (float64(s.TotalHdd())*0.2 + float64(s.Ram)*0.4 + float64(s.Cpu_benchmark)*0.4)/s.ParsePrice()
+	return (float64(s.TotalHdd())*0.2 + float64(s.Ram)*0.4 + float64(s.CpuBenchmark)*0.4) / s.ParsePrice()
 }
 
 func (s *Server) ParsePrice() float64 {
 	priceParsed, err := strconv.ParseFloat(s.Price, 32)
 	if err != nil {
-		fmt.Printf("Could not parse price %s for server %s: %s", s.Price, s.Key, err)
+		fmt.Printf("Could not parse price %s for server %d: %s", s.Price, s.Key, err)
 		return -1
 	}
-	return priceParsed*1.19
+	return priceParsed * 1.19
 }
 
 func (s *Server) Header() string {
@@ -66,9 +66,9 @@ func (s *Server) Header() string {
 
 func (s *Server) ToString() string {
 	fixedPriceSymbol := "*"
-	if !s.Fixed_price {
+	if !s.FixedPrice {
 		fixedPriceSymbol = ""
 	}
 	specials := strings.Join(s.Specials, ", ")
-	return fmt.Sprintf("%s-%d\t%s\t%s (%d)\t%s (%d)\t%.2f €%s\t%.2f\t%s\t%s", s.Name, s.Key, s.Ram_hr, s.Hdd_hr,  s.TotalHdd(), s.Cpu, s.Cpu_benchmark, s.ParsePrice(), fixedPriceSymbol, s.Score(), s.Next_reduce_hr, specials)
+	return fmt.Sprintf("%s-%d\t%s\t%s (%d)\t%s (%d)\t%.2f €%s\t%.2f\t%s\t%s", s.Name, s.Key, s.RamHr, s.HddHr, s.TotalHdd(), s.Cpu, s.CpuBenchmark, s.ParsePrice(), fixedPriceSymbol, s.Score(), s.NextReduceHr, specials)
 }

@@ -75,7 +75,7 @@ func main() {
 	flag.Parse()
 
 	offers := &hetzner.Offers{}
-	err := client.NewClient().DoRequest(hetzner.MakeUrl(), offers)
+	err := client.NewClient().DoRequest(hetzner.MakeURL(), offers)
 	if err != nil {
 		panic(fmt.Errorf("failed to get hetzner live data: %s", err))
 	}
