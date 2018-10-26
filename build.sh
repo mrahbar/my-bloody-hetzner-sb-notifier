@@ -1,4 +1,12 @@
+VERSION=1.0
 GO111MODULE=on
-go get github.com/mitchellh/gox
+CGO_ENABLED=0
+GOOS=linux
+GOARCH=amd64
+
+echo "Fetching dependencies"
 go get ./...
-gox -output="build/hetzner-sb-notifier_{{.OS}}_{{.Arch}}_${VERSION}" -osarch=$1/amd64
+echo "Building project"
+mkdir builds
+go build -a -installsuffix cgo -o ./builds/hetzner-sb-notifier_${GOOS}_${GOARCH}_${VERSION} .
+echo "Done"

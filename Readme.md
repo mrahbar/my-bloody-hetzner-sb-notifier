@@ -42,4 +42,8 @@ Got 545 offers. Filtered offers: 3
 
 ## Build
 
-The Go project uses Go Modules 
+The Go project uses Go Modules and can be easily build with the wrapper script build.sh:
+```` 
+chmod +x build.sh
+./build.sh
+```` 
