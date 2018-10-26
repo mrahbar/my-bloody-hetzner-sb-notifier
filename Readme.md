@@ -1,13 +1,13 @@
 The aim of my-bloody-hetzner-sb-notifier is a simple CLI to fetch the current Hetzner Serverbörse deals and filter them according to CLI parameters sorted by score.
 
-The score is calculated from the amount of HDD space as well as RAM and CPU-Benchnmark for better comparability. 
+For each offer a score is calculated from the amount of HDD space as well as RAM and CPU-Benchnmark for better comparability. 
 
 The CLI interface looks like this:
 ````
 Usage of hetzner-sb-notifier:
-  -alert-on-score int
-    	set alert on score
-  -max-benchmark int
+  -min-cpu-benchmark int
+    	set min benchmark
+  -max-cpu-benchmark int
     	set max benchmark (default 20000)
   -max-hdd-count int
     	set max hdd count (default 15)
@@ -17,8 +17,6 @@ Usage of hetzner-sb-notifier:
     	set max price (default 297)
   -max-ram int
     	set max ram (default 256)
-  -min-benchmark int
-    	set min benchmark
   -min-hdd-count int
     	set min hdd count
   -min-hdd-size int
@@ -27,7 +25,13 @@ Usage of hetzner-sb-notifier:
     	set min price
   -min-ram int
     	set min ram
+  -serve-http
+    	set serve http
+  -serve-http-port int
+    	set serve http port (default 8080)
 ````       
+
+## Http mode
 
 ## Example
 

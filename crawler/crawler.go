@@ -1,51 +1,41 @@
 package crawler
 
 import (
-	"fmt"
 	"github.com/mrahbar/my-bloody-hetzner-sb-notifier/hetzner"
-	"os"
 	"sort"
-	"text/tabwriter"
 )
 
-type Crawler struct {
-	tabWriter *tabwriter.Writer
+type Parameter struct {
+	MinPrice float64
+	MaxPrice float64
 
-	minPrice float64
-	maxPrice float64
+	MinRam int64
+	MaxRam int64
 
-	minRam int
-	maxRam int
+	MinHddSize int64
+	MaxHddSize int64
 
-	minHddSize int
-	maxHddSize int
+	MinHddCount int64
+	MaxHddCount int64
 
-	minHddCount int
-	maxHddCount int
-
-	minBenchmark int
-	maxBenchmark int
+	MinBenchmark int64
+	MaxBenchmark int64
 }
 
-func NewCrawler(minPrice float64, maxPrice float64, minRam int, maxRam int, minHddSize int, maxHddSize int, minHddCount int, maxHddCount int, minBenchmark int, maxBenchmark int) *Crawler {
+
+type Crawler struct {
+	parameter Parameter
+}
+
+func NewCrawler(parameter Parameter) *Crawler {
 	crawler := &Crawler{
-		tabwriter.NewWriter(os.Stdout, 0, 8, 2, ' ', tabwriter.Debug|tabwriter.AlignRight),
-		minPrice,
-		maxPrice,
-		minRam,
-		maxRam,
-		minHddSize,
-		maxHddSize,
-		minHddCount,
-		maxHddCount,
-		minBenchmark,
-		maxBenchmark,
+		parameter: parameter,
 	}
 
 	return crawler
 }
 
-func (c *Crawler) Filter(servers []hetzner.Server) []hetzner.Server {
+func (c *Crawler) Filter(servers []hetzner.Server) hetzner.Deals {
 	var filteredServers []hetzner.Server
 	for _, server := range servers {
 		if !c.isFiltered(server) {
@@ -56,26 +46,23 @@ func (c *Crawler) Filter(servers []hetzner.Server) []hetzner.Server {
 	sort.Slice(servers, func(i, j int) bool {
 		return servers[i].Score() > servers[j].Score()
 	})
-	return filteredServers
-}
 
-func (c *Crawler) Print(servers []hetzner.Server) {
-	fmt.Fprintf(c.tabWriter, "%s\n", servers[0].Header())
-	for _, server := range servers {
-		fmt.Fprintf(c.tabWriter, "%s\n", server.ToString())
+	deals := hetzner.Deals{
+		ResultStats: hetzner.FilterResultStats{OriginalCount: len(servers), FilteredCount: len(filteredServers)},
+		Servers: filteredServers,
 	}
-	c.tabWriter.Flush()
+	return deals
 }
 
 func (c *Crawler) isFiltered(server hetzner.Server) bool {
 	filtered := true
 
 	priceParsed := server.ParsePrice()
-	if server.CpuBenchmark >= c.minBenchmark && server.CpuBenchmark <= c.maxBenchmark &&
-		priceParsed >= c.minPrice && priceParsed <= c.maxPrice &&
-		server.Ram >= c.minRam && server.Ram <= c.maxRam &&
-		server.TotalHdd() >= c.minHddSize && server.TotalHdd() <= c.maxHddSize &&
-		server.HddCount >= c.minHddCount && server.HddCount <= c.maxHddCount {
+	if server.CpuBenchmark >= c.parameter.MinBenchmark && server.CpuBenchmark <= c.parameter.MaxBenchmark &&
+		priceParsed >= c.parameter.MinPrice && priceParsed <= c.parameter.MaxPrice &&
+		server.Ram >= c.parameter.MinRam && server.Ram <= c.parameter.MaxRam &&
+		server.TotalHdd() >= c.parameter.MinHddSize && server.TotalHdd() <= c.parameter.MaxHddSize &&
+		server.HddCount >= c.parameter.MinHddCount && server.HddCount <= c.parameter.MaxHddCount {
 		filtered = false
 	}
 

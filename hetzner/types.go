@@ -6,6 +6,16 @@ import (
 	"strings"
 )
 
+type Deals struct {
+	ResultStats FilterResultStats
+	Servers []Server
+}
+
+type FilterResultStats struct {
+	OriginalCount int `json:"count"`
+	FilteredCount int `json:"filtered"`
+}
+
 type Offers struct {
 	Server []Server `json:"server"`
 }
@@ -26,13 +36,13 @@ type Server struct {
 	SetupPrice string `json:"setup_price"`
 
 	Cpu          string `json:"cpu"`
-	CpuBenchmark int    `json:"cpu_benchmark"`
-	CpuCount     int    `json:"cpu_count"`
-	Ram          int    `json:"ram"`
+	CpuBenchmark int64    `json:"cpu_benchmark"`
+	CpuCount     int64    `json:"cpu_count"`
+	Ram          int64    `json:"ram"`
 	RamHr        string `json:"ram_hr"`
-	HddSize      int    `json:"hdd_size"`
+	HddSize      int64    `json:"hdd_size"`
 	HddHr        string `json:"hdd_hr"`
-	HddCount     int    `json:"hdd_count"`
+	HddCount     int64    `json:"hdd_count"`
 	SpecialHdd   string `json:"specialHdd"`
 
 	NextReduce   int    `json:"next_reduce"`
@@ -43,7 +53,7 @@ type Server struct {
 	IsEcc      bool `json:"is_ecc"`
 }
 
-func (s *Server) TotalHdd() int {
+func (s *Server) TotalHdd() int64 {
 	return s.HddCount * s.HddSize
 }
 
