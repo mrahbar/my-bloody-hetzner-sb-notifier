@@ -1,4 +1,4 @@
-FROM centurylink/ca-certs
+FROM golang:1.11-stretch
 ENV VERSION=1.0
-ADD ./build/hetzner-sb-notifier_linux_amd64_1.0 /
-ENTRYPOINT ["/hetzner-sb-notifier_linux_amd64_1.0"]
+ADD ./builds/hetzner-sb-notifier_linux_amd64_$VERSION /root/hetzner-sb-notifier
+ENTRYPOINT ["/root/hetzner-sb-notifier"]

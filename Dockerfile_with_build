@@ -9,6 +9,6 @@ RUN chmod +x build.sh
 RUN /hetzner-sb-notifier/build.sh linux
 RUN ls -lth /hetzner-sb-notifier/builds
 
-FROM centurylink/ca-certs
+FROM golang:alpine
 COPY --from=builder /hetzner-sb-notifier/builds /root
 ENTRYPOINT ["/root/hetzner-sb-notifier_linux_amd64_1.0"]

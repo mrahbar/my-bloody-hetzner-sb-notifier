@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/iancoleman/strcase"
 	"github.com/mrahbar/my-bloody-hetzner-sb-notifier/client"
 	"github.com/mrahbar/my-bloody-hetzner-sb-notifier/crawler"
 	"github.com/mrahbar/my-bloody-hetzner-sb-notifier/hetzner"
+	"github.com/mrahbar/my-bloody-hetzner-sb-notifier/strcase"
 	"github.com/mrahbar/my-bloody-hetzner-sb-notifier/writer"
 	"io"
 	"net/http"

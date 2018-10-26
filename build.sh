@@ -7,6 +7,7 @@ GOARCH=amd64
 echo "Fetching dependencies"
 go get ./...
 echo "Building project"
-mkdir builds
-go build -a -installsuffix cgo -o ./builds/hetzner-sb-notifier_${GOOS}_${GOARCH}_${VERSION} .
+mkdir -p builds
+go build -o ./builds/hetzner-sb-notifier_${GOOS}_${GOARCH}_${VERSION} .
+#go build -a -installsuffix cgo -o ./builds/hetzner-sb-notifier_${GOOS}_${GOARCH}_${VERSION} .
 echo "Done"

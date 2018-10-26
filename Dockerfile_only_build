@@ -1,0 +1,10 @@
+FROM golang:1.11-stretch
+
+RUN mkdir /hetzner-sb-notifier
+COPY . /hetzner-sb-notifier/
+WORKDIR /hetzner-sb-notifier
+
+RUN chmod +x build.sh
+
+RUN /hetzner-sb-notifier/build.sh linux
+RUN ls -lth /hetzner-sb-notifier/builds
